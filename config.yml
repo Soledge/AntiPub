@@ -1,0 +1,4 @@
+AntiPub:
+    Block IPv4: true
+    Block Domains: true
+    Blocked Message: Advertising and/or posting IPv4 addresses is not allowed on  this server!
