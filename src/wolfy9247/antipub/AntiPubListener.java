@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
@@ -62,8 +61,9 @@ public class AntiPubListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler
 	public void onPlayerChat(PlayerChatEvent event) {
+		plugin = Main.instance;
 		Player player = event.getPlayer();
 		
 		String message = stringToIP(event.getMessage());
@@ -71,18 +71,18 @@ public class AntiPubListener implements Listener {
 		
 		if(player instanceof Player) {
 			if(player.hasPermission("antipub.*") || player.hasPermission("antipub.bypass")) {
-				event.setCancelled(false);
+				return;
 			}
 			else if(message.matches(regex) && plugin.getConfigBoolean("AntiPub.Block IPv4")) {
-					player.sendMessage(terminateMessage("AntiPub.Blocked Message"));
-					event.setCancelled(true);
+				player.sendMessage(terminateMessage("AntiPub.Blocked Message"));
+				event.setCancelled(true);
 			}
 			else if(isURL(event.getMessage()) && plugin.getConfigBoolean("AntiPub.Block Domains")) {
 				player.sendMessage(terminateMessage("AntiPub.Blocked Message"));
 				event.setCancelled(true);
 			}
 			else {
-				event.setCancelled(false);
+				return;
 			}
 		}
 	}

@@ -7,8 +7,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
-
-	public static Main plugin;
+	public static Main instance;
 	protected FileConfiguration config;
 	
 	public final Logger log = Logger.getLogger("Minecraft");
@@ -32,10 +31,12 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		Main.instance = this;
 		PluginDescriptionFile pdfFile = this.getDescription();
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		getServer().getPluginManager().registerEvents(new AntiPubListener(), this);
 		log.info(logTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " enabled!");
+		log.info(logTag + "DEBUG | Boolean Test: "+getConfig().getBoolean("AntiPub.Block IPv4"));
 	}
 }
