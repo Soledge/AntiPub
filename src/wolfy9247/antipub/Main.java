@@ -37,6 +37,5 @@ public class Main extends JavaPlugin {
 		saveConfig();
 		getServer().getPluginManager().registerEvents(new AntiPubListener(), this);
 		log.info(logTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " enabled!");
-		log.info(logTag + "DEBUG | Boolean Test: "+getConfig().getBoolean("AntiPub.Block IPv4"));
 	}
 }
