@@ -1,4 +1,26 @@
 AntiPub:
-    Block IPv4: true
-    Block Domains: true
-    Blocked Message: Advertising and/or posting IPv4 addresses is not allowed on  this server!
+    IPv4:
+        Block IPv4: true
+        Custom Filters:
+            - "\\b0*(2(5[0-5]|[0-4]\\d)|1?\\d{1,2})(\\.0*(2(5[0-5]|[0-4]\\d)|1?\\d{1,2})){3}\\b"
+        Custom Filter Override: false
+        Alert User: true
+        Alert Admins: true
+        Exempt IPv4:
+            - "192.168.1.170"
+    Domains:
+        Block Domains: true
+        Custom Filters:
+            - "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$"
+        Custom Filter Override: false
+        Alert User: true
+        Alert Admins: true
+        Exempt Domains:
+            - "http://google.com"
+    Block Messages:
+        IPv4: 
+            User Notification: "&6[*tag] &5*user, &4posting of IPv4 addresses is not allowed!"
+            Admin Notification: "&6[*tag] &5*user &7(*ip:*port) attempted:    &4*message!"
+        Domains: 
+            User Notification: "&6[*tag] &5*user, &4posting of domains is not allowed!"
+            Admin Notification: "&6[*tag] &5*user &7(*ip:*port) attempted:    &4*message"
