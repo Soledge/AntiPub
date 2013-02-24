@@ -1,0 +1,26 @@
+name: AntiPub
+main: com.wolfy9247.AntiPub.Main
+version: 0.3
+description: >
+             AntiPub - For all your anti-publicity needs! 
+Author: Wolfy9247
+permissions:
+    antipub:
+      description: Permission to bypass posting IPv4 addresses within the chat. 
+      children:
+         antipub.*: true
+         antipub.admin: true
+      default: op
+    antipub.admin:
+      children:
+         antipub.mod: true
+         antipub.reload: true
+    antipub.mod:
+      children:
+         antipub.bypass: true
+         antipub.notify: true
+commands:
+    ap:
+      aliases: [antipub]
+      permission: antipub.mod
+      usage: /AP <help|set> <IPv4|Domains> <?args>
