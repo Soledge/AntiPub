@@ -1,4 +1,4 @@
-package com.wolfy9247.AntiPub;
+package main.java.com.wolfy9247.AntiPub;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ProcessFilters extends Main {
+public class ProcessFilters extends AntiPub {
 	public static ProcessFilters instance;
-	public static Main plugin;
+	public static AntiPub plugin;
 	
 	public String stringToIP (String message) {
 		String tmp = message.replaceAll("[^\\d\\.\\:]", "");
@@ -52,7 +52,7 @@ public class ProcessFilters extends Main {
 	}
 	
 	public static boolean isValidIPv4(String message) {
-		plugin = Main.instance;
+		plugin = AntiPub.instance;
 		config = plugin.getConfig();
 		String regex = "\\b0*(2(5[0-5]|[0-4]\\d)|1?\\d{1,2})(\\.0*(2(5[0-5]|[0-4]\\d)|1?\\d{1,2})){3}\\b";
 		boolean configOverride = config.getBoolean("AntiPub.IPv4.Custom Filter Override");

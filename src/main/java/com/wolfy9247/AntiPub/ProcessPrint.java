@@ -1,9 +1,9 @@
-package com.wolfy9247.AntiPub;
+package main.java.com.wolfy9247.AntiPub;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-public class ProcessPrint extends Main {
+public class ProcessPrint extends AntiPub {
 	public static ProcessPrint instance;
 	
 	protected FileConfiguration config;

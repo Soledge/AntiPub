@@ -1,4 +1,4 @@
-package com.wolfy9247.AntiPub;
+package main.java.com.wolfy9247.AntiPub;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -6,10 +6,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class AntiPubListener implements Listener {
-	public static Main plugin;
+	public static AntiPub plugin;
 	protected FileConfiguration config;
 	
 	public String terminateMessage(String string) {
@@ -46,8 +46,8 @@ public class AntiPubListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onPlayerChat(PlayerChatEvent e) {
-		plugin = Main.instance;
+	public void onPlayerChat(AsyncPlayerChatEvent e) {
+		plugin = AntiPub.instance;
 		config = plugin.getConfig();
 		
 		Player player = e.getPlayer();
