@@ -23,4 +23,4 @@ commands:
     ap:
       aliases: [antipub]
       permission: antipub.mod
-      usage: /ap <[addx|remx]|[addf|remf|[help][reload][toggle]> <[IPv4|domain]> <[on|off|alerts]>
+      usage: /AP <help|set> <IPv4|Domains> <?args>
