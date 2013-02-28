@@ -37,23 +37,23 @@ public class ToggleCommand implements APCommand {
 		
 		else if(args[0].equalsIgnoreCase("ipv4") && sender.hasPermission("ap.toggle.ipv4")) {
 			ConfigurationSection section = config.getConfigurationSection("AntiPub.IPv4");
-
-			switch(args[1]) {
-				case "on":  	section.set("Block IPv4", true);
+			
+			switch(toInt(args[1])) {
+				case 1:  	section.set("Block IPv4", true);
 								sender.sendMessage(ChatColor.GREEN + "[AntiPub] IPv4 blocking has been turned on.");
 								break;
-				case "off": 	section.set("Block IPv4", false);
+				case 2: 	section.set("Block IPv4", false);
 								sender.sendMessage(ChatColor.RED + "[AntiPub] IPv4 blocking has been turned off.");
 								break;
 				/* Notice: This will only toggle user alerts. Admin alerts can only be disabled
 				 * from the config.yml file.
 				 */
-				case "alerts":  switch(args[2]) {
-									case "on": 	section.set("Alert User", true);
+				case 3:  switch(toInt(args[2])) {
+									case 1: 	section.set("Alert User", true);
 												sender.sendMessage(ChatColor.GREEN + 
 														"[AntiPub] User alerts have been turned on.");
 												break;
-									case "off": section.set("Alert User", false);
+									case 2: section.set("Alert User", false);
 												sender.sendMessage(ChatColor.RED + 
 														"[AntiPub] User alerts have been turned off.");
 												break;
@@ -67,24 +67,25 @@ public class ToggleCommand implements APCommand {
 		}
 		else if(args[0].equalsIgnoreCase("domain") && sender.hasPermission("ap.toggle.domain")) {
 			ConfigurationSection section = config.getConfigurationSection("AntiPub.Domains");
+			
 
-			switch(args[1]) {
-				case "on":  	section.set("Block Domains", true);
+			switch(toInt(args[1])) {
+				case 1:  	section.set("Block Domains", true);
 								sender.sendMessage(ChatColor.GREEN + "[AntiPub] Domain blocking has been turned on.");
 								break;
-				case "off": 	section.set("Block Domains", false);
+				case 2: 	section.set("Block Domains", false);
 								sender.sendMessage(ChatColor.RED + "[AntiPub] Domain blocking has been turned off.");
 								break;
 								
 				/* Notice: This will only toggle user alerts. Admin alerts can only be disabled
 				 * from the config.yml file.
 				 */
-				case "alerts":  switch(args[2]) {
-									case "on": 	section.set("Alert User", true);
+				case 3:  switch(toInt(args[2])) {
+									case 1: 	section.set("Alert User", true);
 												sender.sendMessage(ChatColor.GREEN + 
 														"[AntiPub] User alerts have been turned on.");
 												break;
-									case "off": section.set("Alert User", false);
+									case 2: section.set("Alert User", false);
 												sender.sendMessage(ChatColor.RED + 
 														"[AntiPub] User alerts have been turned off.");
 												break;
@@ -100,5 +101,21 @@ public class ToggleCommand implements APCommand {
 			sender.sendMessage(ChatColor.RED + "[AntiPub] Sorry, either the command does not exist or you do not have permission for this operation.");
 		}
 
+	}
+	
+	/**
+	 * A workaround for switch statements with Strings that aren't supported
+	 * in Java 6.
+	 * 
+	 * @return      An integer based on the input to represent the String.
+	 */
+	private int toInt(String s) {
+		if(s.equalsIgnoreCase("on"))
+			return 1;
+		else if(s.equalsIgnoreCase("off"))
+			return 2;
+		else if(s.equalsIgnoreCase("alerts"))
+			return 3;
+		else return 0;
 	}
 }
