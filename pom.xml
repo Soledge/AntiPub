@@ -3,16 +3,49 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.wolfy9247</groupId>
-  <artifactId>AntiPub</artifactId>
-  <version>0.3</version>
+  <artifactId>antipub</artifactId>
+  <version>0.3.2</version>
   <packaging>jar</packaging>
 
   <name>AntiPub</name>
+	<description> AntiPub is a Bukkit plugin specifically designed to block unwanted spam, 
+	including such links or IP's to advertise other servers.
+	</description>
+	
+	<licenses>
+		<license>
+			<name>Reciprocal Public License 1.5 (RPL-1.5)</name>
+			<url>LICENSE.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+  <build>
+    <resources>
+      <resource>
+        <targetPath>.</targetPath>
+        <filtering>true</filtering>
+        <directory>${basedir}/src/main/resources/</directory>
+        <includes>
+          <include>plugin.yml</include>
+        </includes>
+      </resource>
+      <resource>
+        <targetPath>defaults/</targetPath>
+        <filtering>true</filtering>
+        <directory>${basedir}/src/main/resources/</directory>
+        <includes>
+          <include>config.yml</include>
+        </includes>
+      </resource>
+    </resources>
+   </build>
+		
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
+	
 	<repositories>
 		<repository>
 			<id>bukkit-repo</id>

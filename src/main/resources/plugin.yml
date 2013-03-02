@@ -2,7 +2,7 @@ name: AntiPub
 main: main.java.com.wolfy9247.AntiPub.AntiPub
 version: ${project.version}
 description: >
-             AntiPub - For all your anti-publicity needs! 
+             AntiPub - For all your anti-publicity needs!
 Author: Wolfy9247
 permissions:
     antipub:
@@ -15,10 +15,17 @@ permissions:
       children:
          antipub.mod: true
          antipub.reload: true
+         antipub.toggle.*: true
+         antipub.addx: true
+         antipub.remx: true
+         antipub.addf: true
+         antipub.remf: true
+
     antipub.mod:
       children:
          antipub.bypass: true
          antipub.notify: true
+         antipub.help: true
 commands:
     ap:
       aliases: [antipub]

@@ -1,17 +1,22 @@
 package main.java.com.wolfy9247.AntiPub.commands;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
 
 import main.java.com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+
 public class APCommandDispatcher {
-	private static final APCommand[] commandArr = {new ReloadCommand(), new HelpCommand()};
+	private static final APCommand[] commandArr = {new ReloadCommand(), new HelpCommand(), new ToggleCommand()};
     private final Map<String, APCommand> commands = new LinkedHashMap<String, APCommand>();
-    private final AntiPub plugin;
+    private AntiPub plugin;
 
     public APCommandDispatcher(final AntiPub plugin) {
         this.plugin = plugin;
@@ -60,4 +65,21 @@ public class APCommandDispatcher {
             return ChatColor.AQUA + "/ap " + c.getNames()[0] + " " + ChatColor.BLUE + syntax;
         }
     }
+    
+	public void showAvailableCommands(CommandSender sender, Command cmd) {
+		final List<String> availableCommands = new ArrayList<String>();
+		
+		for (final APCommand command : plugin.getDispatcher().getCommands()) {
+			if (command.getPermissionNode() == null || sender.hasPermission(command.getPermissionNode())) {
+				availableCommands.add(APCommandDispatcher.getFullSyntax(command));
+			}
+		}
+		
+		if (availableCommands.isEmpty()) {
+			sender.sendMessage(ChatColor.RED + "You don't have permission.");
+		} else {
+			sender.sendMessage("Try one of the following commands: ");
+			sender.sendMessage(availableCommands.toArray(new String[availableCommands.size()]));
+		}
+	}
 }

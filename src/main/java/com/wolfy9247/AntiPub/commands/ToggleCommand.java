@@ -1,11 +1,13 @@
 package main.java.com.wolfy9247.AntiPub.commands;
 
+
 import main.java.com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+
 
 public class ToggleCommand implements APCommand {
 

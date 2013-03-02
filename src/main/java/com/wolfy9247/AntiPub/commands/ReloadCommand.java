@@ -1,9 +1,11 @@
 package main.java.com.wolfy9247.AntiPub.commands;
 
+import main.java.com.wolfy9247.AntiPub.AntiPub;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import main.java.com.wolfy9247.AntiPub.AntiPub;
+
 
 public class ReloadCommand implements APCommand {
 	

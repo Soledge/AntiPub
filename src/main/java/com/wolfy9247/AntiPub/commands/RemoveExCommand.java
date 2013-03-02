@@ -6,29 +6,30 @@ import main.java.com.wolfy9247.AntiPub.AntiPub;
 import org.bukkit.command.CommandSender;
 
 
-public class AddFilter implements APCommand {
+public class RemoveExCommand implements APCommand {
 
 	@Override
 	public String getPermissionNode() {
-		return "ap.addf";
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public String[] getNames() {
-		return new String[]{"add-filter"};
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public String getSyntax() {
-		return "addf";
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void execute(AntiPub plugin, CommandSender sender, String[] args) {
-		// IPv4 or Domains
-			// IPv4
-				// for()... to list the current filters.
-					// Take input for the number (i.e. [1],[2], etc.) and remove from list.
+		// TODO Auto-generated method stub
+
 	}
 
 }

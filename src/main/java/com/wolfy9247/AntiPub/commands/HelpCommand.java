@@ -1,11 +1,10 @@
 package main.java.com.wolfy9247.AntiPub.commands;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import main.java.com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.command.CommandSender;
+
 
 public class HelpCommand implements APCommand {
 	
