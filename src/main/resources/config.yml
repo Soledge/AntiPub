@@ -18,16 +18,17 @@ IPv4:
   # Exemptions will supersede any filters in place, no matter the
   # permission set. Regex's are not currently supported. Sorry!
   exemptions:
-    - "192.168.1.1"
+    - 192.168.1.1
+  # Note: Quotations aren't required for the value.
   
   # Notifies the user they have posted blocked content.
   user-alert: true
-  user-notification: "<user>, posting of IP's is not allowed.\n Your IP has been logged."
+  user-notification: "<user>, posting of IP's is not allowed."
   
   # Notifies administrators and mods of blocked content.
   # (requires antipub.mod, or antipub.*)
   admin-alert: true
-  admin-notification: "<user> (<ip>:<port>) attempted: <message>"
+  admin-notification: "<user>@<ip>.<hostname> attempted: <message>"
 
 # URL (uniform resource locator) protocol often used in web browsers.
 URL:
@@ -40,12 +41,13 @@ URL:
     - google.com
     - 'google.com'
     - "google.com"
+  # Note: Quotations aren't required for the value.
   
   # Notifies the user they have posted blocked content.
   user-alert: true
-  user-notification: "<user>, posting of URL's is not allowed.\n Your IP has been logged."
+  user-notification: "<user>, posting of URL's is not allowed."
   
   # Notifies administrators and mods of blocked content.
   # (requires antipub.mod, or antipub.*)
   admin-alert: true
-  admin-notification: "<user> (<ip>:<port>) attempted: <message>"
+  admin-notification: "<user>@<ip>.<hostname> attempted: <message>"

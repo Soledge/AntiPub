@@ -27,7 +27,7 @@ IPv4:
   # Notifies administrators and mods of blocked content.
   # (requires antipub.mod, or antipub.*)
   admin-alert: true
-  admin-notification: "<user> (<ip>:<port>) attempted: <message>"
+  admin-notification: "<user> (<ip>:<hostname>) attempted: \n\t<message>"
 
 # URL (uniform resource locator) protocol often used in web browsers.
 URL:
@@ -48,4 +48,4 @@ URL:
   # Notifies administrators and mods of blocked content.
   # (requires antipub.mod, or antipub.*)
   admin-alert: true
-  admin-notification: "<user> (<ip>:<port>) attempted: <message>"
+  admin-notification: "<user>@<ip>.<hostname> attempted: \n\t<message>"
