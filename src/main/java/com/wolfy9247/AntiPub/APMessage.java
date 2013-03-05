@@ -1,18 +1,19 @@
 package main.java.com.wolfy9247.AntiPub;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class APMessage extends AntiPub {
+public class APMessage {
 	
 	private AntiPub plugin;
 	private FileConfiguration config;
@@ -21,9 +22,15 @@ public class APMessage extends AntiPub {
     
 	private final String IPv4Regex = "\\b0*(2(5[0-5]|[0-4]\\d)|1?\\d{1,2})(\\.0*(2(5[0-5]|[0-4]\\d)|1?\\d{1,2})){3}\\b";
     private final String URLRegex = "^(((ht|f)tp(s?))\\://)?([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&amp;%\\$\\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\\:[0-9]+)*(/($|[a-zA-Z0-9\\.\\,\\?\\'\\\\\\+&amp;%\\$#\\=~_\\-]+))*$";
-	    
-	public APMessage(AsyncPlayerChatEvent e) {
-		plugin = AntiPub.getInstance();
+
+    public APMessage(String str) {
+    	plugin = AntiPub.getInstance();
+    	config = plugin.getConfiguration();
+    	message = str;
+    }
+    
+	public APMessage(AntiPub ap, AsyncPlayerChatEvent e) {
+		plugin = ap;
 	    config = plugin.getConfiguration();
 	    message = e.getMessage();
 	    player = e.getPlayer();
@@ -36,7 +43,7 @@ public class APMessage extends AntiPub {
 		else {
 			String type = getType();
 
-			if(type != null) {
+			if(type != "") {
 				if(isExempt(message))
 					return true;
 				else 
@@ -60,8 +67,9 @@ public class APMessage extends AntiPub {
 	}
 	
 	public boolean isExempt(String message) {
-		List<?> exemptList = config.getList(getType() + ".exemptions");
-		for(Object obj : exemptList) {
+		//List<?> exemptList = config.getList(getType() + ".exemptions");
+		
+		for(Object obj : getSection().getList("exemptions")) {
 			if(message.contains(obj.toString()))
 				return true;
 		}
@@ -80,9 +88,16 @@ public class APMessage extends AntiPub {
 		
 	// @TODO: Detect .com, .url, .org, etc. within the string as a URL. 
 	public boolean isURL() {
-		if(pullLinks(message).isEmpty()) {
+		if(pullLinks(message).isEmpty())
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean isValidIPv4() {
+		if(pullIPs(message).isEmpty()) {
 			/* The function returning an empty ArrayList would mean
-			* that no links were able to be found in the string
+			* that no IP's were able to be found in the string
 			* so nothing was added to the list.
 			*/
 			return false;
@@ -90,13 +105,6 @@ public class APMessage extends AntiPub {
 		else {
 			return true;
 		}
-	}
-	
-	public boolean isValidIPv4() {
-		if(message.matches(IPv4Regex))
-			return true;
-		else
-			return false;
 	}
 	
 	private boolean checkFilters() {
@@ -111,31 +119,33 @@ public class APMessage extends AntiPub {
 		return true;
 	}
 	
-	private ArrayList<String> pullLinks(String text) {
+	private ArrayList<String> pullLinks(String str) {
 		ArrayList<String> links = new ArrayList<String>();
 		String regex = URLRegex;
 		
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(text);
-		
-		while(m.find()) {
-			String urlStr = m.group();
-			if (urlStr.startsWith("(") && urlStr.endsWith(")")) {
-				urlStr = urlStr.substring(1, urlStr.length() - 1);
-			}
-			links.add(urlStr);
+		String[] strArray = str.split("\\s");
+		for(String strPart : strArray) {
+			if(strPart.matches(regex))
+				links.add(strPart);
 		}
 		return links;
-	}
 		
-	public String terminateMessage(String string) {
-		String advertAlert = "Advertising and/or posting IPv4 addresses is not allowed on  this server!";
-		string = plugin.getConfig().getString(string);
-		if(!string.equalsIgnoreCase(advertAlert) && !string.isEmpty()) {
-			return string;
+	}
+	
+	private ArrayList<String> pullIPs(String str) {
+		ArrayList<String> strings = new ArrayList<String>();
+		
+		Pattern p = Pattern.compile(IPv4Regex);
+		Matcher m = p.matcher(str);
+		
+		while(m.find()) {
+			for(int i = 0; i <= m.groupCount(); i++) {
+				String result = m.group(i);
+				strings.add(result);
+			}
 		}
-		else {
-			return advertAlert;
-		}
+		
+		Bukkit.broadcastMessage("strings: " + strings);
+		return strings;
 	}
 }
