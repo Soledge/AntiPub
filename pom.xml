@@ -31,7 +31,7 @@
         </includes>
       </resource>
       <resource>
-        <targetPath>defaults/</targetPath>
+        <targetPath>.</targetPath>
         <filtering>true</filtering>
         <directory>${basedir}/src/main/resources/</directory>
         <includes>
