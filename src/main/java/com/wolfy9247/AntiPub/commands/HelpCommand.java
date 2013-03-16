@@ -3,6 +3,7 @@ package main.java.com.wolfy9247.AntiPub.commands;
 
 import main.java.com.wolfy9247.AntiPub.AntiPub;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 
@@ -15,18 +16,17 @@ public class HelpCommand implements APCommand {
 
 	@Override
 	public String[] getNames() {
-		// TODO Auto-generated method stub
 		return new String[]{"help"};
 	}
 
 	@Override
 	public String getSyntax() {
-		return "help";
+		return "";
 	}
 
 	@Override
 	public void execute(AntiPub plugin, CommandSender sender, String[] args) {
-		
+		plugin.getDispatcher().showAvailableCommands(sender);
 	}
 
 }

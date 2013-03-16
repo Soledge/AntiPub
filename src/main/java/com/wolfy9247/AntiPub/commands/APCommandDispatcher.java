@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 
 
 public class APCommandDispatcher {
-	private static final APCommand[] commandArr = {new ReloadCommand(), new HelpCommand(), new ToggleCommand()};
+	private static final APCommand[] commandArr = {new ReloadCommand(), new ToggleCommand(), new HelpCommand()};
     private final Map<String, APCommand> commands = new LinkedHashMap<String, APCommand>();
     private AntiPub plugin;
 
@@ -60,13 +60,13 @@ public class APCommandDispatcher {
     public static String getFullSyntax(APCommand c) {
         final String syntax = c.getSyntax();
         if (syntax == null) {
-            return ChatColor.AQUA + "/ap " + c.getNames()[0];
+            return ChatColor.DARK_GREEN + "/ap " + ChatColor.GRAY + c.getNames()[0] + " (" + c.getPermissionNode() + ")";
         } else {
-            return ChatColor.AQUA + "/ap " + c.getNames()[0] + " " + ChatColor.BLUE + syntax;
+            return ChatColor.DARK_GREEN + "/ap " + c.getNames()[0] + " " + ChatColor.DARK_PURPLE + syntax + ChatColor.GRAY + " (" + c.getPermissionNode() + ")";
         }
     }
     
-	public void showAvailableCommands(CommandSender sender, Command cmd) {
+	public void showAvailableCommands(CommandSender sender) {
 		final List<String> availableCommands = new ArrayList<String>();
 		
 		for (final APCommand command : plugin.getDispatcher().getCommands()) {
@@ -78,8 +78,11 @@ public class APCommandDispatcher {
 		if (availableCommands.isEmpty()) {
 			sender.sendMessage(ChatColor.RED + "You don't have permission.");
 		} else {
-			sender.sendMessage("Try one of the following commands: ");
+            sender.sendMessage("[AntiPub] Select a command from the list below: ");
+            sender.sendMessage(ChatColor.DARK_RED + "##############################################");
+			sender.sendMessage(ChatColor.DARK_RED + "Processing list of commands... done.");
 			sender.sendMessage(availableCommands.toArray(new String[availableCommands.size()]));
+            sender.sendMessage(ChatColor.DARK_RED + "##############################################");
 		}
 	}
 }
