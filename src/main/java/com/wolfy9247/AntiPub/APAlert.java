@@ -1,33 +1,34 @@
 package main.java.com.wolfy9247.AntiPub;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class APAlert extends AntiPub {
+public class APAlert {
 	
-	private ConfigurationSection section;
+	private String[] alertMsg;
 	private Player player;
 	private Format format;
 	
-	public APAlert(ConfigurationSection s, AsyncPlayerChatEvent e) {
+	public APAlert(String[] alertStr, AsyncPlayerChatEvent e) {
 		player = e.getPlayer();
-		section = s;
+		alertMsg = alertStr;
 		format = new Format(e);
 	}
 	
 	public void triggerAlerts() {
-		triggerUserAlert();
 		triggerAdminAlert();
+		triggerUserAlert();
 	}
 	
 	public void triggerUserAlert() {
-		player.sendMessage(format.formatMessage(section.getString("user-notification")));
+		player.sendMessage(ChatColor.RED + "[AntiPub] " + format.formatMessage(alertMsg[0]));
 	}
 	
-	public void triggerAdminAlert() {} {
-		Bukkit.broadcast(format.formatMessage(section.getString("admin-notification")), "antipub.notify");
+	public void triggerAdminAlert() {
+		if(format != null) {
+			Bukkit.broadcast(ChatColor.RED + "[AntiPub] " + format.formatMessage(alertMsg[1]), "antipub.notify");
+		}
 	}
-	
 }

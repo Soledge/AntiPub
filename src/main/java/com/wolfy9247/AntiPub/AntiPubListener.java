@@ -10,14 +10,18 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class AntiPubListener implements Listener {
 	public static AntiPub plugin;
 	protected FileConfiguration config;
+	private APAlert alert;
+	
+	public AntiPubListener(AntiPub ap) {
+		plugin = ap;
+	}
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		plugin = AntiPub.getInstance();
-		config = plugin.getConfig();
+		config = plugin.getConfiguration();
 		
 		Player player = e.getPlayer();
-		APMessage message = new APMessage(e);
+		APMessage message = new APMessage(plugin, e);
 		
 		ConfigurationSection section = message.getSection();
 		
@@ -26,9 +30,10 @@ public class AntiPubListener implements Listener {
 				return;
 			}
 			else {
-				e.setCancelled(true);
-				APAlert alert = new APAlert(section, e);
-				alert.triggerAlerts();
+			      String[] alertMessages = { section.getString("user-notification"), section.getString("admin-notification") };
+			      alert = new APAlert(alertMessages, e);
+			      alert.triggerAlerts();
+			      e.setCancelled(true);
 			}
 		}
 	}
