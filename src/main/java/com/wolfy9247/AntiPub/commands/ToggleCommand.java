@@ -1,7 +1,7 @@
-package main.java.com.wolfy9247.AntiPub.commands;
+package com.wolfy9247.AntiPub.commands;
 
 
-import main.java.com.wolfy9247.AntiPub.AntiPub;
+import com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +23,7 @@ public class ToggleCommand implements APCommand {
 
 	@Override
 	public String getSyntax() {
-		return "toggle <[IPv4|domain]> <[on|off|alerts]>";
+		return "toggle <IPv4|domain> <on|off|alerts <on|off>>";
 	}
 
 	/* Todo: Hook in with permissions to change antipub.notify to false  
@@ -33,24 +33,29 @@ public class ToggleCommand implements APCommand {
 	public void execute(AntiPub plugin, CommandSender sender, String[] args) {
 		FileConfiguration config = plugin.getConfig();
 		
-		if(args[1].isEmpty()) {
-			sender.sendMessage(ChatColor.RED + "[AntiPub] Toggle failed: You must specify either 'ipv4' or 'domain'");
+		if(args.length < 2) {
+			sender.sendMessage(ChatColor.RED + "[AntiPub] Toggle failed: You must specify either 'ipv4' or 'domain' and 'on', 'off', or 'alerts'");
 		}
 		
 		else if(args[0].equalsIgnoreCase("ipv4") && sender.hasPermission("ap.toggle.ipv4")) {
-			ConfigurationSection section = config.getConfigurationSection("AntiPub.IPv4");
+			ConfigurationSection section = config.getConfigurationSection("IPv4");
 			
 			switch(toInt(args[1])) {
-				case 1:  	section.set("Block IPv4", true);
+				case 1:  	section.set("block-protocol", true);
 								sender.sendMessage(ChatColor.GREEN + "[AntiPub] IPv4 blocking has been turned on.");
 								break;
-				case 2: 	section.set("Block IPv4", false);
+				case 2: 	section.set("block-protocol", false);
 								sender.sendMessage(ChatColor.RED + "[AntiPub] IPv4 blocking has been turned off.");
 								break;
 				/* Notice: This will only toggle user alerts. Admin alerts can only be disabled
 				 * from the config.yml file.
 				 */
-				case 3:  switch(toInt(args[2])) {
+				case 3:
+                    if (args.length < 3) {
+                        sender.sendMessage(ChatColor.RED + "[AntiPub] You must specify either 'on' or 'off'");
+                        return;
+                    }
+                    switch(toInt(args[2])) {
 									case 1: 	section.set("Alert User", true);
 												sender.sendMessage(ChatColor.GREEN + 
 														"[AntiPub] User alerts have been turned on.");
@@ -68,7 +73,7 @@ public class ToggleCommand implements APCommand {
 			}
 		}
 		else if(args[0].equalsIgnoreCase("domain") && sender.hasPermission("ap.toggle.domain")) {
-			ConfigurationSection section = config.getConfigurationSection("AntiPub.Domains");
+			ConfigurationSection section = config.getConfigurationSection("Domains");
 			
 
 			switch(toInt(args[1])) {

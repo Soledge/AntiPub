@@ -1,4 +1,4 @@
-package main.java.com.wolfy9247.AntiPub;
+package com.wolfy9247.AntiPub;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,7 +18,7 @@ public class AntiPubListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		config = plugin.getConfiguration();
+		config = plugin.getConfig();
 		
 		Player player = e.getPlayer();
 		APMessage message = new APMessage(plugin, e);

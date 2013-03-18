@@ -1,5 +1,5 @@
 name: AntiPub
-main: main.java.com.wolfy9247.AntiPub.AntiPub
+main: com.wolfy9247.AntiPub.AntiPub
 version: ${project.version}
 description: >
              AntiPub - For all your anti-publicity needs!

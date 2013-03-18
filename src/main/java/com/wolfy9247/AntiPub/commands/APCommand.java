@@ -1,6 +1,6 @@
-package main.java.com.wolfy9247.AntiPub.commands;
+package com.wolfy9247.AntiPub.commands;
 
-import main.java.com.wolfy9247.AntiPub.AntiPub;
+import com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.command.CommandSender;
 

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.wolfy9247</groupId>
-  <artifactId>antipub</artifactId>
+  <artifactId>Antipub</artifactId>
   <version>0.3.2</version>
   <packaging>jar</packaging>
 
@@ -19,7 +19,6 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	
   <build>
     <resources>
       <resource>
@@ -40,7 +39,6 @@
       </resource>
     </resources>
    </build>
-		
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

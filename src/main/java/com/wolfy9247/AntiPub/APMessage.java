@@ -1,4 +1,4 @@
-package main.java.com.wolfy9247.AntiPub;
+package com.wolfy9247.AntiPub;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,13 +25,13 @@ public class APMessage {
 
     public APMessage(String str) {
     	plugin = AntiPub.getInstance();
-    	config = plugin.getConfiguration();
+    	config = plugin.getConfig();
     	message = str;
     }
     
 	public APMessage(AntiPub ap, AsyncPlayerChatEvent e) {
 		plugin = ap;
-	    config = plugin.getConfiguration();
+	    config = plugin.getConfig();
 	    message = e.getMessage();
 	    player = e.getPlayer();
 	}

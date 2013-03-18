@@ -1,8 +1,8 @@
-package main.java.com.wolfy9247.AntiPub;
+package com.wolfy9247.AntiPub;
 
 import java.util.logging.Logger;
 
-import main.java.com.wolfy9247.AntiPub.commands.APCommandDispatcher;
+import com.wolfy9247.AntiPub.commands.APCommandDispatcher;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,7 +27,7 @@ public class AntiPub extends JavaPlugin {
 		dispatcher = new APCommandDispatcher(this);
 		pdfFile = this.getDescription();
 		loadConfiguration();
-		getServer().getPluginManager().registerEvents(new AntiPubListener(), this);
+		getServer().getPluginManager().registerEvents(new AntiPubListener(this), this);
 		log.info(logTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " enabled!");
 	}
 	
@@ -40,13 +40,14 @@ public class AntiPub extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		log.info(logTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " disabled!");
+        saveConfig();
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("ap") || cmd.getName().equalsIgnoreCase("antipub")) {
 			if (!dispatcher.dispatch(sender, args)) {
-				dispatcher.showAvailableCommands(sender, cmd);
+				dispatcher.showAvailableCommands(sender);
 			}
 		}
 		return true;
@@ -55,11 +56,7 @@ public class AntiPub extends JavaPlugin {
 	public static AntiPub getInstance() {
 		return instance;
 	}
-	
-	public FileConfiguration getConfiguration() {
-		return this.getConfig();
-	}
-	
+
 	public static APCommandDispatcher getDispatcher() {
 		return dispatcher;
 	}

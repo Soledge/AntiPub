@@ -1,4 +1,4 @@
-package main.java.com.wolfy9247.AntiPub.commands;
+package com.wolfy9247.AntiPub.commands;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
-import main.java.com.wolfy9247.AntiPub.AntiPub;
+import com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

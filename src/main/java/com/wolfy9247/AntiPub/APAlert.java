@@ -1,4 +1,4 @@
-package main.java.com.wolfy9247.AntiPub;
+package com.wolfy9247.AntiPub;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
