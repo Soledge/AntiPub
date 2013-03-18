@@ -73,6 +73,7 @@ public class ToggleCommand implements APCommand {
 		}
 		plugin.saveConfig();
 		plugin.reloadConfig();
+<<<<<<< HEAD
 	}
 
 	/**
@@ -88,6 +89,8 @@ public class ToggleCommand implements APCommand {
 		} else {
 			return 0;
 		}
+=======
+>>>>>>> Get rid of the ugly switch statements
 	}
 
 	private String boolToString(boolean bool) {
