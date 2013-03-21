@@ -26,7 +26,7 @@ public class ReloadCommand implements APCommand {
 	
 	@Override
 	public void execute(AntiPub plugin, CommandSender sender, String[] args) {
-		plugin.loadConfiguration();
+        plugin.reloadConfig();
 		sender.sendMessage(ChatColor.GREEN + "AntiPub configuration has been reloaded.");
 	}
 
