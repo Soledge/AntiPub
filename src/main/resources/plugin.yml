@@ -2,11 +2,11 @@ name: AntiPub
 main: com.wolfy9247.AntiPub.AntiPub
 version: ${project.version}
 description: >
-             AntiPub - For all your anti-publicity needs!
+             AntiPub - a light-weight, effective plugin dedicated to blocking spam.
 Author: Wolfy9247
 permissions:
     antipub:
-      description: Permission to bypass posting IPv4 addresses within the chat. 
+      description: Permission to bypass posting IPv4 addresses within the chat.
       children:
          antipub.*: true
          antipub.admin: true
@@ -18,8 +18,6 @@ permissions:
          antipub.toggle.*: true
          antipub.addx: true
          antipub.remx: true
-         antipub.addf: true
-         antipub.remf: true
 
     antipub.mod:
       children:
@@ -30,4 +28,4 @@ commands:
     ap:
       aliases: [antipub]
       permission: antipub.mod
-      usage: /ap <[addx|remx]|[addf|remf|[help][reload][toggle]> <[IPv4|domain]> <[on|off|alerts]>
+      usage: /ap <[help]|[reload]|[toggle]> <[IPv4|URL]> <[on|off]>

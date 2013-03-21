@@ -23,91 +23,62 @@ public class ToggleCommand implements APCommand {
 
 	@Override
 	public String getSyntax() {
-		return "toggle <IPv4|domain> <on|off|alerts <on|off>>";
+		return "<IPv4|URL> <on|off>";
 	}
 
-	/* Todo: Hook in with permissions to change antipub.notify to false  
-	 * for invidual users to toggle their notifications."
+	/* @TODO: Hook in with permissions to change antipub.notify to false for individual users.
+	 * This function only applies to those who have or inherit antipub.notify.
 	 */
 	@Override
 	public void execute(AntiPub plugin, CommandSender sender, String[] args) {
 		FileConfiguration config = plugin.getConfig();
-		
-		if(args.length < 2) {
-			sender.sendMessage(ChatColor.RED + "[AntiPub] Toggle failed: You must specify either 'ipv4' or 'domain' and 'on', 'off', or 'alerts'");
-		}
-		
+        String logTag = plugin.getLogTag();
+
+        if(args.length == 0) {
+            sender.sendMessage(logTag + ChatColor.RED + "Specify either [ipv4] or [url]. See /ap help for more information.");
+        }
 		else if(args[0].equalsIgnoreCase("ipv4") && sender.hasPermission("ap.toggle.ipv4")) {
 			ConfigurationSection section = config.getConfigurationSection("IPv4");
-			
-			switch(toInt(args[1])) {
+
+            if(args.length < 2) {
+                sender.sendMessage(logTag + "IPv4 filtering is currently: " + boolToString(section.getBoolean("block-protocol")));
+                return;
+            }
+			else switch(toInt(args[1])) {
 				case 1:  	section.set("block-protocol", true);
-								sender.sendMessage(ChatColor.GREEN + "[AntiPub] IPv4 blocking has been turned on.");
+								sender.sendMessage(logTag + ChatColor.GREEN + "IPv4 blocking has been turned on.");
 								break;
 				case 2: 	section.set("block-protocol", false);
-								sender.sendMessage(ChatColor.RED + "[AntiPub] IPv4 blocking has been turned off.");
+								sender.sendMessage(logTag + ChatColor.RED + "IPv4 blocking has been turned off.");
 								break;
-				/* Notice: This will only toggle user alerts. Admin alerts can only be disabled
-				 * from the config.yml file.
-				 */
-				case 3:
-                    if (args.length < 3) {
-                        sender.sendMessage(ChatColor.RED + "[AntiPub] You must specify either 'on' or 'off'");
-                        return;
-                    }
-                    switch(toInt(args[2])) {
-									case 1: 	section.set("Alert User", true);
-												sender.sendMessage(ChatColor.GREEN + 
-														"[AntiPub] User alerts have been turned on.");
-												break;
-									case 2: section.set("Alert User", false);
-												sender.sendMessage(ChatColor.RED + 
-														"[AntiPub] User alerts have been turned off.");
-												break;
-									default:	sender.sendMessage(ChatColor.RED + 
-														"[AntiPub] You must specify either 'on' or 'off'");
-												break;	 
-								}
-				default:	   sender.sendMessage(ChatColor.RED + "[AntiPub] You must specify either 'on' or 'off'");
-							   break;	   
+				default:	sender.sendMessage(logTag + ChatColor.RED + "You must specify either 'on' or 'off'");
+							    break;
 			}
 		}
-		else if(args[0].equalsIgnoreCase("domain") && sender.hasPermission("ap.toggle.domain")) {
-			ConfigurationSection section = config.getConfigurationSection("Domains");
-			
+		else if(args[0].equalsIgnoreCase("URL") && sender.hasPermission("ap.toggle.url")) {
+			ConfigurationSection section = config.getConfigurationSection("URL");
 
-			switch(toInt(args[1])) {
+            if(args.length < 2) {
+                sender.sendMessage(logTag + "URL filtering is currently: " + boolToString(section.getBoolean("block-protocol")));
+                return;
+            }
+
+			else switch(toInt(args[1])) {
 				case 1:  	section.set("Block Domains", true);
-								sender.sendMessage(ChatColor.GREEN + "[AntiPub] Domain blocking has been turned on.");
+								sender.sendMessage(logTag + ChatColor.GREEN + "Domain blocking has been turned on.");
 								break;
 				case 2: 	section.set("Block Domains", false);
-								sender.sendMessage(ChatColor.RED + "[AntiPub] Domain blocking has been turned off.");
+								sender.sendMessage(logTag + ChatColor.RED + "Domain blocking has been turned off.");
 								break;
-								
-				/* Notice: This will only toggle user alerts. Admin alerts can only be disabled
-				 * from the config.yml file.
-				 */
-				case 3:  switch(toInt(args[2])) {
-									case 1: 	section.set("Alert User", true);
-												sender.sendMessage(ChatColor.GREEN + 
-														"[AntiPub] User alerts have been turned on.");
-												break;
-									case 2: section.set("Alert User", false);
-												sender.sendMessage(ChatColor.RED + 
-														"[AntiPub] User alerts have been turned off.");
-												break;
-									default:	sender.sendMessage(ChatColor.RED + 
-														"[AntiPub] You must specify either 'on' or 'off'");
-												break; 
-								}
-				default:	  sender.sendMessage(ChatColor.RED + "[AntiPub] You must specify either 'on' or 'off'");
-							  break;	   
+				default:	  sender.sendMessage(logTag + ChatColor.RED + "You must specify either 'on' or 'off'");
+							    break;
 			}
 		}
 		else {
-			sender.sendMessage(ChatColor.RED + "[AntiPub] Sorry, either the command does not exist or you do not have permission for this operation.");
+			sender.sendMessage(logTag + ChatColor.RED + "Sorry, either the command does not exist or you do not have permission for this operation.");
 		}
-
+        plugin.saveConfig();
+        plugin.reloadConfig();
 	}
 	
 	/**
@@ -116,13 +87,17 @@ public class ToggleCommand implements APCommand {
 	 * 
 	 * @return      An integer based on the input to represent the String.
 	 */
-	private int toInt(String s) {
-		if(s.equalsIgnoreCase("on"))
+	private int toInt(String str) {
+		if(str.equalsIgnoreCase("on"))
 			return 1;
-		else if(s.equalsIgnoreCase("off"))
+		else if(str.equalsIgnoreCase("off"))
 			return 2;
-		else if(s.equalsIgnoreCase("alerts"))
-			return 3;
 		else return 0;
 	}
+
+    private String boolToString(boolean bool) {
+        if(bool)
+            return ChatColor.DARK_GREEN + "[ON]";
+        else return ChatColor.DARK_RED + "[OFF]";
+    }
 }

@@ -39,8 +39,6 @@ URL:
   # permission set. Regex's are not currently supported. Sorry!
   exemptions:
     - google.com
-    - 'google.com'
-    - "google.com"
   # Note: Quotations aren't required for the value.
   
   # Notifies the user they have posted blocked content.

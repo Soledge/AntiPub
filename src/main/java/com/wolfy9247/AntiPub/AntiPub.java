@@ -20,6 +20,7 @@ public class AntiPub extends JavaPlugin {
 	
 	public final static Logger log = Logger.getLogger("Minecraft");
     public static final String logTag = ChatColor.GOLD  + "[AntiPub] ";
+    public static final String pLogTag = logTag.substring(logTag.indexOf('['));
     
 	@Override
 	public void onEnable() {
@@ -28,7 +29,7 @@ public class AntiPub extends JavaPlugin {
 		pdfFile = this.getDescription();
 		loadConfiguration();
 		getServer().getPluginManager().registerEvents(new AntiPubListener(this), this);
-		log.info(logTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " enabled!");
+		log.info(pLogTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " enabled!");
 	}
 	
 	public void loadConfiguration() {
@@ -39,7 +40,7 @@ public class AntiPub extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		log.info(logTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " disabled!");
+		log.info(pLogTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " disabled!");
         saveConfig();
 	}
 	
@@ -60,5 +61,9 @@ public class AntiPub extends JavaPlugin {
 	public static APCommandDispatcher getDispatcher() {
 		return dispatcher;
 	}
+
+    public String getLogTag() {
+        return logTag;
+    }
 }
 		

@@ -76,9 +76,9 @@ public class APCommandDispatcher {
 		}
 		
 		if (availableCommands.isEmpty()) {
-			sender.sendMessage(ChatColor.RED + "You don't have permission.");
+			sender.sendMessage(plugin.getLogTag() + ChatColor.RED + "You don't have permission.");
 		} else {
-            sender.sendMessage("[AntiPub] Select a command from the list below: ");
+            sender.sendMessage(plugin.getLogTag() + "Select a command from the list below: ");
             sender.sendMessage(ChatColor.DARK_RED + "##############################################");
 			sender.sendMessage(ChatColor.DARK_RED + "Processing list of commands... done.");
 			sender.sendMessage(availableCommands.toArray(new String[availableCommands.size()]));
