@@ -10,7 +10,7 @@ public class AddExCommand implements APCommand {
 
 	@Override
 	public String getPermissionNode() {
-		return "ap.addx";
+		return "antipub.addx";
 	}
 
 	@Override

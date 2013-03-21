@@ -9,7 +9,7 @@ public class RemoveExCommand implements APCommand {
 
 	@Override
 	public String getPermissionNode() {
-		return "ap.remx";
+		return "antipub.remx";
 	}
 
 	@Override

@@ -76,7 +76,7 @@ public class APCommandDispatcher {
 		}
 		
 		if (availableCommands.isEmpty()) {
-			sender.sendMessage(plugin.getLogTag() + ChatColor.RED + "You don't have permission.");
+			sender.sendMessage(plugin.getLogTag() + ChatColor.RED + "You don't have permission to use that command.");
 		} else {
             sender.sendMessage(plugin.getLogTag() + "Select a command from the list below: ");
             sender.sendMessage(ChatColor.DARK_RED + "##############################################");

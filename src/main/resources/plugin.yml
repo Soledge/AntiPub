@@ -8,14 +8,15 @@ permissions:
     antipub:
       description: Permission to bypass posting IPv4 addresses within the chat.
       children:
-         antipub.*: true
          antipub.admin: true
       default: op
     antipub.admin:
       children:
          antipub.mod: true
          antipub.reload: true
-         antipub.toggle.*: true
+         antipub.toggle: true
+         antipub.toggle.ipv4: true
+         antipub.toggle.url: true
          antipub.addx: true
          antipub.remx: true
 
@@ -24,6 +25,7 @@ permissions:
          antipub.bypass: true
          antipub.notify: true
          antipub.help: true
+         antipub.toggle: true
 commands:
     ap:
       aliases: [antipub]

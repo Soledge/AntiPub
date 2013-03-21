@@ -11,7 +11,7 @@ public class DebugCommand implements APCommand {
 
 	@Override
 	public String getPermissionNode() {
-		return "ap.debug";
+		return "antipub.debug";
 	}
 
 	@Override

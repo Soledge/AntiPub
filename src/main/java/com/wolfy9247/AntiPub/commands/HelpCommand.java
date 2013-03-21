@@ -11,7 +11,7 @@ public class HelpCommand implements APCommand {
 	
 	@Override
 	public String getPermissionNode() {
-		return "ap.help";
+		return "antipub.help";
 	}
 
 	@Override

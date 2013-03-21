@@ -11,7 +11,7 @@ public class ReloadCommand implements APCommand {
 	
 	@Override
 	public String getPermissionNode() {
-		return "ap.reload";
+		return "antipub.reload";
 	}
 	
 	@Override

@@ -1,4 +1,9 @@
-/target/
-.settings
-build_final.bat
-mvn_build.bat
+# Apache Maven & Dev Resources #
+################################
+*.bat
+target/
+
+# IntelliJ Files/Dirs #
+#######################
+*.iml
+idea/
