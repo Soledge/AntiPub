@@ -35,7 +35,7 @@ public class ToggleCommand implements APCommand {
         String logTag = plugin.getLogTag();
 
         if(args.length == 0) {
-            sender.sendMessage(logTag + ChatColor.RED + "Specify either [ipv4] or [url]. See /ap help for more information.");
+            sender.sendMessage(logTag + ChatColor.DARK_RED + "Specify either [ipv4] or [url]. See /ap help for more information.");
         }
 		else if(args[0].equalsIgnoreCase("ipv4") && sender.hasPermission("ap.toggle.ipv4")) {
 			ConfigurationSection section = config.getConfigurationSection("IPv4");
@@ -46,12 +46,12 @@ public class ToggleCommand implements APCommand {
             }
 			else switch(toInt(args[1])) {
 				case 1:  	section.set("block-protocol", true);
-								sender.sendMessage(logTag + ChatColor.GREEN + "IPv4 blocking has been turned on.");
+								sender.sendMessage(logTag + ChatColor.DARK_GREEN + "IPv4 blocking has been turned on.");
 								break;
 				case 2: 	section.set("block-protocol", false);
-								sender.sendMessage(logTag + ChatColor.RED + "IPv4 blocking has been turned off.");
+								sender.sendMessage(logTag + ChatColor.DARK_RED + "IPv4 blocking has been turned off.");
 								break;
-				default:	sender.sendMessage(logTag + ChatColor.RED + "You must specify either 'on' or 'off'");
+				default:	sender.sendMessage(logTag + ChatColor.DARK_RED + "You must specify either [on] or [off].");
 							    break;
 			}
 		}
@@ -64,18 +64,18 @@ public class ToggleCommand implements APCommand {
             }
 
 			else switch(toInt(args[1])) {
-				case 1:  	section.set("Block Domains", true);
-								sender.sendMessage(logTag + ChatColor.GREEN + "Domain blocking has been turned on.");
+				case 1:  	section.set("block-protocol", true);
+								sender.sendMessage(logTag + ChatColor.DARK_GREEN + "URL filters have been turned on.");
 								break;
-				case 2: 	section.set("Block Domains", false);
-								sender.sendMessage(logTag + ChatColor.RED + "Domain blocking has been turned off.");
+				case 2: 	section.set("block-protocol", false);
+								sender.sendMessage(logTag + ChatColor.DARK_RED + "URL filters have been turned off.");
 								break;
-				default:	  sender.sendMessage(logTag + ChatColor.RED + "You must specify either 'on' or 'off'");
+				default:	  sender.sendMessage(logTag + ChatColor.DARK_RED + "You must specify either [on] or [off].");
 							    break;
 			}
 		}
 		else {
-			sender.sendMessage(logTag + ChatColor.RED + "Sorry, either the command does not exist or you do not have permission for this operation.");
+			sender.sendMessage(logTag + ChatColor.DARK_RED + "Sorry, either the command does not exist or you do not have permission for this operation.");
 		}
         plugin.saveConfig();
         plugin.reloadConfig();

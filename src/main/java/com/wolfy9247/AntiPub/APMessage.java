@@ -67,8 +67,6 @@ public class APMessage {
 	}
 	
 	public boolean isExempt(String message) {
-		//List<?> exemptList = config.getList(getType() + ".exemptions");
-		
 		for(Object obj : getSection().getList("exemptions")) {
 			if(message.contains(obj.toString()))
 				return true;
@@ -85,8 +83,7 @@ public class APMessage {
 		}
 		else return tmp;
 	}
-		
-	// @TODO: Detect .com, .url, .org, etc. within the string as a URL. 
+
 	public boolean isURL() {
 		if(pullLinks(message).isEmpty())
 			return false;
@@ -109,7 +106,6 @@ public class APMessage {
 	
 	private boolean checkFilters() {
 		List<?> filterList = config.getList("Global.custom-filters");
-		// Iterator<?> iter = filterList.iterator();
 		
 		for(Object regex : filterList) {
 			if(message.matches(regex.toString()))
@@ -144,8 +140,6 @@ public class APMessage {
 				strings.add(result);
 			}
 		}
-		
-		Bukkit.broadcastMessage("strings: " + strings);
 		return strings;
 	}
 }
