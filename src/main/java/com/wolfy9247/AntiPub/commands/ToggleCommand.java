@@ -73,24 +73,6 @@ public class ToggleCommand implements APCommand {
 		}
 		plugin.saveConfig();
 		plugin.reloadConfig();
-<<<<<<< HEAD
-	}
-
-	/**
-	 * A workaround for switch statements with Strings that aren't supported in Java 6.
-	 *
-	 * @return An integer based on the input to represent the String.
-	 */
-	private int toInt(String str) {
-		if (str.equalsIgnoreCase("on")) {
-			return 1;
-		} else if (str.equalsIgnoreCase("off")) {
-			return 2;
-		} else {
-			return 0;
-		}
-=======
->>>>>>> Get rid of the ugly switch statements
 	}
 
 	private String boolToString(boolean bool) {
