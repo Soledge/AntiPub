@@ -4,4 +4,6 @@ jdk:
   - openjdk7
   - openjdk6
 notifications:
-  email: true
+  email:
+    recipients:
+      - wolfy9247@gmail.com
