@@ -48,8 +48,7 @@ public class AntiPubListener implements Listener {
 				return;
 			}
 			else {
-			      String[] alertMessages = { section.getString("user-notification"), section.getString("admin-notification") };
-			      alert = new APAlert(alertMessages, e);
+			      alert = new APAlert(e, plugin);
 			      alert.triggerAlerts();
 			      e.setCancelled(true);
 			}

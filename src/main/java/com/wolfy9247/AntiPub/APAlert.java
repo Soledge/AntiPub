@@ -20,18 +20,22 @@ package com.wolfy9247.AntiPub;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class APAlert {
-	
-	private String[] alertMsg;
+
+    private ConfigurationSection section;
 	private Player player;
 	private Format format;
 	
-	public APAlert(String[] alertStr, AsyncPlayerChatEvent e) {
+	public APAlert(AsyncPlayerChatEvent e, AntiPub plugin) {
+        FileConfiguration config = plugin.getConfig();
+        APMessage message = new APMessage(e.getMessage());
+        section = config.getConfigurationSection(message.getType());
 		player = e.getPlayer();
-		alertMsg = alertStr;
 		format = new Format(e);
 	}
 	
@@ -41,12 +45,12 @@ public class APAlert {
 	}
 	
 	public void triggerUserAlert() {
-		player.sendMessage(ChatColor.RED + "[AntiPub] " + format.formatMessage(alertMsg[0]));
+		player.sendMessage(ChatColor.RED + "[AntiPub] " + format.formatMessage(section.getString("user-notification")));
 	}
 	
 	public void triggerAdminAlert() {
 		if(format != null) {
-			Bukkit.broadcast(ChatColor.RED + "[AntiPub] " + format.formatMessage(alertMsg[1]), "antipub.notify");
+			Bukkit.broadcast(ChatColor.RED + "[AntiPub] " + format.formatMessage(section.getString("admin-notification")), "antipub.notify");
 		}
 	}
 }
