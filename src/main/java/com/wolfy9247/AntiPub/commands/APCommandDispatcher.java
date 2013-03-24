@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 
 
 public class APCommandDispatcher {
-	private static final APCommand[] commandArr = {new ReloadCommand(), new ToggleCommand(), new HelpCommand()};
+	private static final APCommand[] commandArr = {new ReloadCommand(), new ToggleCommand(), new HelpCommand(), new AddExCommand(), new RemoveExCommand()};
     private final Map<String, APCommand> commands = new LinkedHashMap<String, APCommand>();
     private AntiPub plugin;
 
