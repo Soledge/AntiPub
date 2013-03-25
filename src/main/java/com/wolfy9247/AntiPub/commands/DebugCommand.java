@@ -19,6 +19,7 @@
 package com.wolfy9247.AntiPub.commands;
 
 
+import com.wolfy9247.AntiPub.APMessage;
 import com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.ChatColor;
@@ -39,12 +40,38 @@ public class DebugCommand implements APCommand {
 
 	@Override
 	public String getSyntax() {
-		return "debug";
+		return "";
 	}
 
 	@Override
 	public void execute(AntiPub plugin, CommandSender sender, String[] args) {
-		sender.sendMessage(ChatColor.RED + "[AntiPub] This feature has not yet been implemented in this version of AntiPub.");
-	}
+        String logTag = plugin.getLogTag();
+        if(args.length == 0) {
+            sender.sendMessage(logTag + "AntiPub Debug Interface: ");
+            sender.sendMessage(ChatColor.DARK_GRAY + "##############################################");
+            sender.sendMessage("[#1] Test Filters - /ap debug testfilter <msg>");
+            sender.sendMessage(ChatColor.DARK_GRAY + "##############################################");
+            sender.sendMessage(logTag + "Use the above syntax to perform an action.");
+        } else {
+            if(args[0].equalsIgnoreCase("testfilter")) {
+                if(args.length < 2) {
+                    sender.sendMessage(logTag + ChatColor.DARK_RED + "You must specify a message to test!");
+                } else {
+                    APMessage message = new APMessage(args[1]);
+                    sender.sendMessage(logTag + "IPv4 Test: " + boolToString(message.isValidIPv4()));
+                    sender.sendMessage(logTag + "URL Test: " + boolToString(message.isURL()));
+                }
+            } else {
+                sender.sendMessage(logTag + ChatColor.RED + "You must enter a valid command.");
+            }
+        }
+    }
 
+    private String boolToString(boolean bool) {
+        if (!bool) {
+            return ChatColor.DARK_GREEN + "[PASSED - EXEMPT]";
+        } else {
+            return ChatColor.DARK_RED + "[FAILED - NOT EXEMPT]";
+        }
+	}
 }

@@ -55,7 +55,7 @@ public class RemoveExCommand implements APCommand {
             ConfigurationSection section = config.getConfigurationSection("IPv4");
             List exList = section.getList("exemptions");
 
-            if (sender.hasPermission("antipub.remex.ipv4")) {
+            if (sender.hasPermission("antipub.remx.ipv4")) {
                 if(args.length == 1) {
                     sender.sendMessage(plugin.getLogTag() + "Select an exception from the list below: ");
                     sender.sendMessage(ChatColor.DARK_RED + "##############################################");
@@ -87,7 +87,7 @@ public class RemoveExCommand implements APCommand {
             ConfigurationSection section = config.getConfigurationSection("URL");
             List exList = section.getList("exemptions");
 
-            if (sender.hasPermission("antipub.remex.url")) {
+            if (sender.hasPermission("antipub.remx.url")) {
                 if(args.length == 1) {
                     sender.sendMessage(plugin.getLogTag() + "Select an exception from the list below: ");
                     sender.sendMessage(ChatColor.DARK_RED + "##############################################");
