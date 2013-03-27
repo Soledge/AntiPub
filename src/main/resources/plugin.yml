@@ -26,8 +26,9 @@ permissions:
          antipub.notify: true
          antipub.help: true
          antipub.toggle: true
+         antipub.debug: true
 commands:
     ap:
       aliases: [antipub]
       permission: antipub.mod
-      usage: /ap <[help]|[reload]|[toggle]> <[IPv4|URL]> <[on|off]>
+      usage: /ap <[help]|[reload]|[debug]|[toggle]> <[IPv4|URL]> <[on|off]>

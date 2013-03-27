@@ -40,7 +40,7 @@ public class DebugCommand implements APCommand {
 
 	@Override
 	public String getSyntax() {
-		return "";
+		return "<testfilter> <msg>";
 	}
 
 	@Override
