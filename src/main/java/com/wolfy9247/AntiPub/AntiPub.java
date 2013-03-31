@@ -18,6 +18,7 @@
 
 package com.wolfy9247.AntiPub;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.wolfy9247.AntiPub.commands.APCommandDispatcher;
@@ -28,6 +29,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import org.mcstats.Metrics;
 
 public class AntiPub extends JavaPlugin {
 	
@@ -47,8 +50,23 @@ public class AntiPub extends JavaPlugin {
 		pdfFile = this.getDescription();
 		loadConfiguration();
 		getServer().getPluginManager().registerEvents(new AntiPubListener(this), this);
+        loadStats();
 		log.info(pLogTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " enabled!");
 	}
+
+    private void loadStats() {
+        try {
+            Metrics metrics = new Metrics(this);
+            if(!(metrics.isOptOut())) {
+                metrics.start();
+                log.info(pLogTag + "Initializing MCStats (Metrics)... done.");
+            } else {
+                log.info(pLogTag + "MCStats (Metrics) is disabled. No data sent.");
+            }
+        } catch (IOException e) {
+            log.warning(pLogTag + "MCStats failed to submit data.");
+        }
+    }
 	
 	public void loadConfiguration() {
 		config = this.getConfig();
