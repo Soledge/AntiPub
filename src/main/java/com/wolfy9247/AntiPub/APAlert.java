@@ -25,32 +25,67 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class APAlert {
 
     private ConfigurationSection section;
 	private Player player;
 	private Format format;
+    private APMessage message;
+    private AntiPub plugin;
+    private String logTag;
 	
 	public APAlert(AsyncPlayerChatEvent e, AntiPub plugin) {
-        FileConfiguration config = plugin.getConfig();
-        APMessage message = new APMessage(e.getMessage());
-        section = config.getConfigurationSection(message.getType());
-		player = e.getPlayer();
-		format = new Format(e);
+        player = e.getPlayer();
+        message = new APMessage(e.getMessage());
+        format = new Format(e);
+        this.plugin = plugin;
+        section = plugin.getConfig().getConfigurationSection(message.getType());
+        logTag = plugin.getLogTag();
 	}
 	
 	public void triggerAlerts() {
 		triggerAdminAlert();
 		triggerUserAlert();
 	}
+
 	
-	public void triggerUserAlert() {
-		player.sendMessage(ChatColor.RED + "[AntiPub] " + format.formatMessage(section.getString("user-notification")));
+	private void triggerUserAlert() {
+		player.sendMessage(logTag + ChatColor.RED + format.formatMessage(section.getString("user-notification")));
 	}
 	
-	public void triggerAdminAlert() {
+	private void triggerAdminAlert() {
 		if(format != null) {
-			Bukkit.broadcast(ChatColor.RED + "[AntiPub] " + format.formatMessage(section.getString("admin-notification")), "antipub.notify");
+			Bukkit.broadcast(logTag + ChatColor.RED + format.formatMessage(section.getString("admin-notification")), "antipub.notify");
 		}
 	}
+
+    public void logAlert() {
+        if(plugin.getConfig().getBoolean("Global.log-alerts") || section.getBoolean("log-alert")) {
+            final APStats stats = new APStats();
+            final Calendar currentDate = Calendar.getInstance();
+            final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            stats.setProtocol(message.getType());
+            stats.setPlayerName(player.getName());
+            stats.setMessage(message.getMessage());
+            stats.setServerTime(formatter.format(currentDate.getTime()));
+
+                    /* This operations run in a separate thread as a workaround for an Ebean exception
+                    * that is caused by modifying the DB as an extension of an async event.
+                    */
+                    Thread t = new Thread() {
+                @Override
+                public void run() {
+                    plugin.getDatabase().save(stats);
+                }
+            };
+            t.start();
+            while(t.isAlive());
+            if(plugin.getConfig().getBoolean("Global.log-display"))
+                Bukkit.broadcast(logTag + ChatColor.DARK_GREEN + "Alert ID #: " + stats.getId() + " has been logged.", "antipub.notify");
+        }
+    }
 }

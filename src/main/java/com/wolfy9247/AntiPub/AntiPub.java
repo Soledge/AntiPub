@@ -19,10 +19,14 @@
 package com.wolfy9247.AntiPub;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import com.avaje.ebean.ExpressionList;
 import com.wolfy9247.AntiPub.commands.APCommandDispatcher;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -31,6 +35,9 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.mcstats.Metrics;
+import org.mcstats.Metrics.Graph;
+
+import javax.persistence.PersistenceException;
 
 public class AntiPub extends JavaPlugin {
 	
@@ -42,7 +49,7 @@ public class AntiPub extends JavaPlugin {
 	public final static Logger log = Logger.getLogger("Minecraft");
     public static final String logTag = ChatColor.GOLD  + "[AntiPub] ";
     public static final String pLogTag = logTag.substring(logTag.indexOf('['));
-    
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -50,6 +57,7 @@ public class AntiPub extends JavaPlugin {
 		pdfFile = this.getDescription();
 		loadConfiguration();
 		getServer().getPluginManager().registerEvents(new AntiPubListener(this), this);
+        setupDatabase();
         loadStats();
 		log.info(pLogTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " enabled!");
 	}
@@ -57,17 +65,54 @@ public class AntiPub extends JavaPlugin {
     private void loadStats() {
         try {
             Metrics metrics = new Metrics(this);
+
             if(!(metrics.isOptOut())) {
+                Graph graph = metrics.createGraph("Protocol Percentage");
+
+                graph.addPlotter(new Metrics.Plotter("IPv4") {
+
+                    @Override
+                    public int getValue() {
+                        return getDatabase().find(APStats.class).where().ieq("protocol", "IPv4").findRowCount();
+                    }
+
+                });
+
+                graph.addPlotter(new Metrics.Plotter("URL") {
+
+                    @Override
+                    public int getValue() {
+                        return getDatabase().find(APStats.class).where().ieq("protocol", "URL").findRowCount();
+                    }
+
+                });
                 metrics.start();
                 log.info(pLogTag + "Initializing MCStats (Metrics)... done.");
             } else {
                 log.info(pLogTag + "MCStats (Metrics) is disabled. No data sent.");
+                metrics.disable();
             }
         } catch (IOException e) {
-            log.warning(pLogTag + "MCStats failed to submit data.");
+            log.warning(pLogTag + ChatColor.DARK_RED + "MCStats failed to submit data.");
         }
     }
-	
+
+    private void setupDatabase() {
+        try {
+            getDatabase().find(APStats.class).findRowCount();
+        } catch (PersistenceException e) {
+            log.warning(pLogTag + "SQLite Database is being installed... done.");
+            installDDL();
+        }
+    }
+
+    @Override
+    public List<Class<?>> getDatabaseClasses() {
+        List<Class<?>> list = new ArrayList<Class<?>>();
+        list.add(APStats.class);
+        return list;
+    }
+
 	public void loadConfiguration() {
 		config = this.getConfig();
 		config.options().copyDefaults(true);

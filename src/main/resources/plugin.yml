@@ -1,9 +1,10 @@
 name: AntiPub
 main: com.wolfy9247.AntiPub.AntiPub
 version: ${project.version}
+database: true
 description: >
              AntiPub - a light-weight, effective plugin dedicated to blocking spam.
-Author: Wolfy9247
+author: Wolfy9247
 permissions:
     antipub:
       description: Permission to bypass posting IPv4 addresses within the chat.

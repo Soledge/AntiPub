@@ -20,6 +20,7 @@ package com.wolfy9247.AntiPub.commands;
 
 
 import com.wolfy9247.AntiPub.APMessage;
+import com.wolfy9247.AntiPub.APStats;
 import com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.ChatColor;
@@ -50,6 +51,7 @@ public class DebugCommand implements APCommand {
             sender.sendMessage(logTag + "AntiPub Debug Interface: ");
             sender.sendMessage(ChatColor.DARK_GRAY + "##############################################");
             sender.sendMessage("[#1] Test Filters - /ap debug testfilter <msg>");
+            sender.sendMessage("[#2] Test Database - /ap debug testdb");
             sender.sendMessage(ChatColor.DARK_GRAY + "##############################################");
             sender.sendMessage(logTag + "Use the above syntax to perform an action.");
         } else {
@@ -60,6 +62,19 @@ public class DebugCommand implements APCommand {
                     APMessage message = new APMessage(args[1]);
                     sender.sendMessage(logTag + "IPv4 Test: " + boolToString(message.isValidIPv4()));
                     sender.sendMessage(logTag + "URL Test: " + boolToString(message.isURL()));
+                }
+            } else if(args[0].equalsIgnoreCase("testdb")) {
+                String[] protocols = {"IPv4", "URL"};
+                for(String protocol : protocols) {
+                    APStats stats = plugin.getDatabase().find(APStats.class).where().ieq("protocol", protocol).findUnique();
+                    if(stats == null) {
+                        sender.sendMessage(logTag + ChatColor.DARK_RED + "No " + protocol + " entries found.");
+                    } else {
+                        sender.sendMessage(logTag + "Last " + stats.getProtocol() + " message: " + stats.getMessage());
+                        sender.sendMessage(logTag + "ID #: " + stats.getId());
+                        sender.sendMessage(logTag + "Total " + stats.getProtocol() + " entries logged: " +
+                                            plugin.getDatabase().find(APStats.class).where().ieq("protocol", protocol).findRowCount());
+                    }
                 }
             } else {
                 sender.sendMessage(logTag + ChatColor.RED + "You must enter a valid command.");

@@ -18,14 +18,11 @@
 
 package com.wolfy9247.AntiPub;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -53,6 +50,10 @@ public class APMessage {
 	    message = e.getMessage();
 	    player = e.getPlayer();
 	}
+
+    public String getMessage() {
+        return this.message;
+    }
 	
 	public boolean isAllowed() {
 		if(player.hasPermission("antipub.bypass")) {

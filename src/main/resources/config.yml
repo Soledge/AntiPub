@@ -9,6 +9,12 @@ Global:
   # The custom filter override will ignore the built-in filters and only
   # use the regex that you specify.
   custom-filter-override: false
+
+  # Overrides the separate protocol logging and logs all protocols.
+  log-alerts: true
+
+  # A global setting to display alert logging for all protocols.
+  log-display: true
   
 # IPv4 or Internet Protocol v4 is the common protocol for IP addresses.
 IPv4:
@@ -30,6 +36,15 @@ IPv4:
   admin-alert: true
   admin-notification: "<user>@<ip>.<hostname> attempted: <message>"
 
+  # Performs an action based upon the amount of times a user has been notified.
+  user-attempts: 3
+  action: /ban <user>
+
+  # Logs each alert into the specified database in Bukkit.yml.
+  # The global variable 'global-log-alert' overrides this value.
+  log-alert: true
+
+
 # URL (uniform resource locator) protocol often used in web browsers.
 URL:
   # To (dis)allow the URL protocol in chat.
@@ -49,3 +64,7 @@ URL:
   # (requires antipub.mod, or antipub.*)
   admin-alert: true
   admin-notification: "<user>@<ip>.<hostname> attempted: <message>"
+
+  # Logs each alert into the specified database in Bukkit.yml.
+  # The global variable 'global-log-alert' overrides this value.
+  log-alert: true
