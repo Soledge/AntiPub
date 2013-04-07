@@ -65,6 +65,10 @@ URL:
   admin-alert: true
   admin-notification: "<user>@<ip>.<hostname> attempted: <message>"
 
+  # Performs an action based upon the amount of times a user has been notified.
+  user-attempts: 3
+  action: /ban <user>
+
   # Logs each alert into the specified database in Bukkit.yml.
   # The global variable 'global-log-alert' overrides this value.
   log-alert: true

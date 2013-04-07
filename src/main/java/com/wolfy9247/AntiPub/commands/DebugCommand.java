@@ -19,12 +19,15 @@
 package com.wolfy9247.AntiPub.commands;
 
 
+import com.avaje.ebean.ExpressionList;
 import com.wolfy9247.AntiPub.APMessage;
 import com.wolfy9247.AntiPub.APStats;
 import com.wolfy9247.AntiPub.AntiPub;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+
+import java.util.List;
 
 
 public class DebugCommand implements APCommand {
@@ -66,14 +69,17 @@ public class DebugCommand implements APCommand {
             } else if(args[0].equalsIgnoreCase("testdb")) {
                 String[] protocols = {"IPv4", "URL"};
                 for(String protocol : protocols) {
-                    APStats stats = plugin.getDatabase().find(APStats.class).where().ieq("protocol", protocol).findUnique();
-                    if(stats == null) {
+                    List<APStats> stats = plugin.getDatabase().find(APStats.class).where().ieq("protocol", protocol).findList();
+                    if(stats.size() == 0) {
                         sender.sendMessage(logTag + ChatColor.DARK_RED + "No " + protocol + " entries found.");
                     } else {
-                        sender.sendMessage(logTag + "Last " + stats.getProtocol() + " message: " + stats.getMessage());
-                        sender.sendMessage(logTag + "ID #: " + stats.getId());
-                        sender.sendMessage(logTag + "Total " + stats.getProtocol() + " entries logged: " +
+                        APStats lastEntry = stats.get(stats.size() - 1);
+                        sender.sendMessage(logTag + "########################################");
+                        sender.sendMessage(logTag + "Last " + lastEntry.getProtocol() + " message: " + lastEntry.getMessage());
+                        sender.sendMessage(logTag + "ID #: " + lastEntry.getId());
+                        sender.sendMessage(logTag + "Total " + lastEntry.getProtocol() + " entries logged: " +
                                             plugin.getDatabase().find(APStats.class).where().ieq("protocol", protocol).findRowCount());
+                        sender.sendMessage(logTag + "########################################");
                     }
                 }
             } else {

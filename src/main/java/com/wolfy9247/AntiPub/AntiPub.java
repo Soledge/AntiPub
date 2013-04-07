@@ -40,11 +40,12 @@ import org.mcstats.Metrics.Graph;
 import javax.persistence.PersistenceException;
 
 public class AntiPub extends JavaPlugin {
-	
-	private static AntiPub instance;
-	private static APCommandDispatcher dispatcher;
-	protected static FileConfiguration config;
+
+    private Metrics metrics;
+	private APCommandDispatcher dispatcher;
 	private PluginDescriptionFile pdfFile;
+    private static AntiPub instance;
+    protected static FileConfiguration config;
 	
 	public final static Logger log = Logger.getLogger("Minecraft");
     public static final String logTag = ChatColor.GOLD  + "[AntiPub] ";
@@ -52,7 +53,7 @@ public class AntiPub extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		instance = this;
+        instance = this;
 		dispatcher = new APCommandDispatcher(this);
 		pdfFile = this.getDescription();
 		loadConfiguration();
@@ -62,9 +63,9 @@ public class AntiPub extends JavaPlugin {
 		log.info(pLogTag + pdfFile.getName() + " v" + pdfFile.getVersion() + " enabled!");
 	}
 
-    private void loadStats() {
+    public void loadStats() {
         try {
-            Metrics metrics = new Metrics(this);
+            metrics = new Metrics(this);
 
             if(!(metrics.isOptOut())) {
                 Graph graph = metrics.createGraph("Protocol Percentage");
@@ -87,13 +88,22 @@ public class AntiPub extends JavaPlugin {
 
                 });
                 metrics.start();
-                log.info(pLogTag + "Initializing MCStats (Metrics)... done.");
+                log.info(pLogTag + "Initializing Metrics service... done.");
+                log.info(pLogTag + "To see statistics about this plugin, visit: http://mcstats.org/plugin/AntiPub");
             } else {
-                log.info(pLogTag + "MCStats (Metrics) is disabled. No data sent.");
+                log.info(pLogTag + "Metrics is disabled. No data sent.");
                 metrics.disable();
             }
         } catch (IOException e) {
-            log.warning(pLogTag + ChatColor.DARK_RED + "MCStats failed to submit data.");
+            log.warning(pLogTag + "Metrics failed to submit data.");
+        }
+    }
+
+    private void reloadStats() {
+        if(metrics != null) {
+
+        } else {
+            log.warning(pLogTag + "Metrics failed to reload.");
         }
     }
 
@@ -101,7 +111,8 @@ public class AntiPub extends JavaPlugin {
         try {
             getDatabase().find(APStats.class).findRowCount();
         } catch (PersistenceException e) {
-            log.warning(pLogTag + "SQLite Database is being installed... done.");
+            log.info(pLogTag + "Metrics SQLite Database is being installed... done.");
+            log.info(pLogTag + "Change opt-out to 'true' in plugins/PluginMetrics/config.yml to not send statistics.");
             installDDL();
         }
     }
@@ -139,7 +150,7 @@ public class AntiPub extends JavaPlugin {
 		return instance;
 	}
 
-	public static APCommandDispatcher getDispatcher() {
+	public APCommandDispatcher getDispatcher() {
 		return dispatcher;
 	}
 

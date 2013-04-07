@@ -112,9 +112,8 @@ public class APMessage {
 	
 	public boolean isValidIPv4() {
 		if(pullIPs(message).isEmpty()) {
-			/* The function returning an empty ArrayList would mean
-			* that no IP's were able to be found in the string
-			* so nothing was added to the list.
+			/* The function returning an empty ArrayList would mean that no IP's
+			 * were able to be found in the string so nothing was added to the list.
 			*/
 			return false;
 		}
@@ -137,11 +136,19 @@ public class APMessage {
 	private ArrayList<String> pullLinks(String str) {
 		ArrayList<String> links = new ArrayList<String>();
 		String regex = URLRegex;
-		
 		String[] strArray = str.split("\\s");
 		for(String strPart : strArray) {
-			if(strPart.matches(regex))
+			if(strPart.matches(regex)) {
 				links.add(strPart);
+            } else {
+                /* Removes the last character of a string to prevent punctuation
+                 * from passing a message that should be blocked.
+                 */
+                strPart = strPart.substring(0, strPart.length() - 1);
+                if(strPart.matches(regex)) {
+                    links.add(strPart);
+                }
+            }
 		}
 		return links;
 		

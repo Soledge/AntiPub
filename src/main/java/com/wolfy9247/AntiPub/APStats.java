@@ -24,16 +24,14 @@ import com.avaje.ebean.validation.NotNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ap_stats")
 public class APStats {
 
     @Id
+    @GeneratedValue
     private int id;
 
     @Length(max=5)

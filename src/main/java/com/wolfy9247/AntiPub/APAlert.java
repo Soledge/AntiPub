@@ -18,6 +18,7 @@
 
 package com.wolfy9247.AntiPub;
 
+import com.avaje.ebean.ExpressionList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -27,6 +28,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.concurrent.*;
 
 public class APAlert {
 
@@ -49,6 +51,9 @@ public class APAlert {
 	public void triggerAlerts() {
 		triggerAdminAlert();
 		triggerUserAlert();
+        if(requiresAction()) {
+            takeAction();
+        }
 	}
 
 	
@@ -63,7 +68,7 @@ public class APAlert {
 	}
 
     public void logAlert() {
-        if(plugin.getConfig().getBoolean("Global.log-alerts") || section.getBoolean("log-alert")) {
+        if(plugin.getConfig().getBoolean("Global.log-alerts") && section.getBoolean("log-alert")) {
             final APStats stats = new APStats();
             final Calendar currentDate = Calendar.getInstance();
             final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -73,19 +78,80 @@ public class APAlert {
             stats.setMessage(message.getMessage());
             stats.setServerTime(formatter.format(currentDate.getTime()));
 
-                    /* This operations run in a separate thread as a workaround for an Ebean exception
-                    * that is caused by modifying the DB as an extension of an async event.
-                    */
-                    Thread t = new Thread() {
+            /* This operations run in a separate thread as a workaround for an Ebean exception
+             * that is caused by modifying the DB as an extension of an async event.
+             */
+             class LogThread extends Thread {
+                volatile boolean finished = false;
+
+                public void stopThread() {
+                    finished = true;
+                }
+
                 @Override
                 public void run() {
-                    plugin.getDatabase().save(stats);
+                    while(!finished) {
+                        plugin.getDatabase().save(stats);
+                        if(plugin.getConfig().getBoolean("Global.log-display")) {
+                            Bukkit.broadcast(logTag + ChatColor.DARK_GREEN + "Alert ID #: " + stats.getId() + " has been logged.", "antipub.notify");
+                            stopThread();
+                        } else {
+                            stopThread();
+                        }
+                    }
                 }
             };
-            t.start();
-            while(t.isAlive());
-            if(plugin.getConfig().getBoolean("Global.log-display"))
-                Bukkit.broadcast(logTag + ChatColor.DARK_GREEN + "Alert ID #: " + stats.getId() + " has been logged.", "antipub.notify");
+            LogThread t = new LogThread();
+            t.start(); // Saves the database.
         }
+    }
+
+    private boolean requiresAction() {
+        final int maxAttempts = section.getInt("user-attempts");
+
+        /* A new class must be created in order to retrieve the value from the
+         * new thread, which is required due to the Ebean exception.
+        */
+        class DBThread extends Thread {
+            volatile boolean finished = false;
+            private int playerAttempts;
+
+            public void stopThread() {
+                finished = true;
+            }
+
+            @Override
+            public void run() {
+                while(!finished) {
+                    playerAttempts = plugin.getDatabase().find(APStats.class).where().ieq("playerName", player.getName()).findRowCount() + 1;
+                }
+            }
+
+            public int getPlayerAttempts() {
+                return playerAttempts;
+            }
+        };
+
+        DBThread t = new DBThread();
+        t.start();
+
+        int playerAttempts = t.getPlayerAttempts();
+        while(t.isAlive()) {
+            playerAttempts = t.getPlayerAttempts();
+            if(playerAttempts >= 1) {
+                t.stopThread();
+            }
+        }
+        if(playerAttempts % maxAttempts == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void takeAction() {
+        final String command = format.formatMessage(section.getString("action").replace("/", ""));
+        Bukkit.broadcast(logTag + ChatColor.RED + "User surpassed amount of attempts!", "antipub.notify");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
     }
 }
