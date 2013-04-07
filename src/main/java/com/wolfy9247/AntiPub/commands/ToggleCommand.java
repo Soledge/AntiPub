@@ -19,7 +19,6 @@
 package com.wolfy9247.AntiPub.commands;
 
 import com.wolfy9247.AntiPub.AntiPub;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;

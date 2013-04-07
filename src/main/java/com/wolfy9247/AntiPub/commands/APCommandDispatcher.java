@@ -18,17 +18,14 @@
 
 package com.wolfy9247.AntiPub.commands;
 
+import com.wolfy9247.AntiPub.AntiPub;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-
-import com.wolfy9247.AntiPub.AntiPub;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 
 
 public class APCommandDispatcher {

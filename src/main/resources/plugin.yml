@@ -30,6 +30,7 @@ permissions:
          antipub.debug: true
 commands:
     ap:
+      description: Commands for manipulating AntiPub settings.
       aliases: [antipub]
       permission: antipub.mod
       usage: /ap <[help]|[reload]|[debug]|[toggle]> <[IPv4|URL]> <[on|off]>

@@ -20,15 +20,12 @@ package com.wolfy9247.AntiPub.commands;
 
 import com.wolfy9247.AntiPub.APMessage;
 import com.wolfy9247.AntiPub.AntiPub;
-
-import org.bukkit.command.CommandSender;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 public class AddExCommand implements APCommand {
 

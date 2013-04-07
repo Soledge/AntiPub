@@ -18,26 +18,21 @@
 
 package com.wolfy9247.AntiPub;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
-import com.avaje.ebean.ExpressionList;
 import com.wolfy9247.AntiPub.commands.APCommandDispatcher;
-
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import org.mcstats.Metrics;
 import org.mcstats.Metrics.Graph;
 
 import javax.persistence.PersistenceException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class AntiPub extends JavaPlugin {
 
@@ -89,7 +84,7 @@ public class AntiPub extends JavaPlugin {
                 });
                 metrics.start();
                 log.info(pLogTag + "Initializing Metrics service... done.");
-                log.info(pLogTag + "To see statistics about this plugin, visit: http://mcstats.org/plugin/AntiPub");
+                log.info(pLogTag + "To view statistics, visit: http://mcstats.org/plugin/AntiPub");
             } else {
                 log.info(pLogTag + "Metrics is disabled. No data sent.");
                 metrics.disable();
@@ -99,21 +94,18 @@ public class AntiPub extends JavaPlugin {
         }
     }
 
-    private void reloadStats() {
-        if(metrics != null) {
-
-        } else {
-            log.warning(pLogTag + "Metrics failed to reload.");
-        }
-    }
-
     private void setupDatabase() {
         try {
             getDatabase().find(APStats.class).findRowCount();
         } catch (PersistenceException e) {
+            log.info(pLogTag + "######### AntiPub Database Notice #########");
             log.info(pLogTag + "Metrics SQLite Database is being installed... done.");
-            log.info(pLogTag + "Change opt-out to 'true' in plugins/PluginMetrics/config.yml to not send statistics.");
+            log.info(pLogTag + "Change opt-out to 'true' in plugins/PluginMetrics/");
+            log.info(pLogTag + "config.yml to not send anonymous statistics.");
+            log.info(pLogTag + "######### AntiPub Database Notice End #########");
+            log.info(pLogTag + "######### AntiPub Database Creation #########");
             installDDL();
+            log.info(pLogTag + "######### Database Creation End #########");
         }
     }
 

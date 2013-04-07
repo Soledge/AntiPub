@@ -24,8 +24,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.sql.DatabaseMetaData;
-
 public class AntiPubListener implements Listener {
 	public static AntiPub plugin;
 	protected FileConfiguration config;
