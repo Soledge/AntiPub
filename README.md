@@ -26,4 +26,5 @@ Links
 
 * [AntiPub Project on DevBukkit](http://dev.bukkit.org/server-mods/antipub/)
 * [Issue tracker](https://github.com/Wolfy9247/AntiPub/issues)
+* [Mailing List](https://groups.google.com/forum/#!forum/antipub-dev)
 * [Continuous integration](https://travis-ci.org/Wolfy9247/AntiPub) [![Build Status](https://secure.travis-ci.org/Wolfy9247/AntiPub.png)](http://travis-ci.org/Wolfy9247/AntiPub)
