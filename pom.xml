@@ -76,6 +76,11 @@
 				</executions>
 				<configuration>
 					<minimizeJar>true</minimizeJar>
+					<artifactSet>
+            <excludes>
+              <exclude>org.bukkit:*</exclude>
+            </excludes>
+          </artifactSet>
 				</configuration>
 			</plugin>
     </plugins>
